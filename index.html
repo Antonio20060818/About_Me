@@ -1,123 +1,79 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>Fishing Tour Ad</title>
-  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@500;700&display=swap" rel="stylesheet">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>About Ant</title>
+  <link href="https://fonts.googleapis.com/css2?family=Quicksand:wght@500;700&display=swap" rel="stylesheet">
   <style>
     body {
       margin: 0;
-      font-family: 'Outfit', sans-serif;
-      background: linear-gradient(to bottom right, #0f172a, #1e293b);
-      color: #e2e8f0;
+      font-family: 'Quicksand', sans-serif;
+      background-color: #000;
+      color: #fff;
       display: flex;
       align-items: center;
       justify-content: center;
-      min-height: 100vh;
-      padding: 2rem;
+      height: 100vh;
     }
 
-    .ad-card {
-      max-width: 600px;
-      background-color: #1e293b;
+    .card {
+      background-color: #111;
+      border: 2px solid #fff;
       border-radius: 20px;
       padding: 2rem;
-      box-shadow: 0 0 20px rgba(0, 0, 0, 0.4);
+      width: 350px;
+      max-width: 90%;
       text-align: center;
-      border: 1px solid #334155;
     }
 
-    .ad-card h1 {
-      color: #38bdf8;
-      font-size: 2.5rem;
+    .card h1 {
+      font-size: 2rem;
       margin-bottom: 0.5rem;
     }
 
-    .ad-card h2 {
-      font-size: 1.2rem;
-      color: #94a3b8;
-      margin-bottom: 1.5rem;
-    }
-
-    .features {
-      text-align: left;
-      margin-bottom: 1.5rem;
-    }
-
-    .features li {
-      margin: 0.5rem 0;
-      padding-left: 1.2rem;
-      position: relative;
-    }
-
-    .features li::before {
-      content: "🎣";
-      position: absolute;
-      left: 0;
-    }
-
-    .cta {
+    .nickname {
       font-size: 1.1rem;
-      margin-bottom: 1rem;
-      color: #facc15;
+      margin-bottom: 1.2rem;
+      color: #bbb;
     }
 
-    .contact p {
-      margin: 0.3rem 0;
+    .info {
+      background-color: #000;
+      border: 1px solid #fff;
+      padding: 0.7rem;
+      margin: 0.4rem 0;
+      border-radius: 10px;
+      font-size: 0.95rem;
+      display: flex;
+      justify-content: space-between;
     }
 
-    .button {
-      margin-top: 1.5rem;
-      display: inline-block;
-      padding: 0.75rem 1.5rem;
-      background-color: #38bdf8;
-      color: #0f172a;
-      font-weight: 600;
-      border-radius: 999px;
-      text-decoration: none;
-      transition: background 0.3s;
+    .info span {
+      font-weight: bold;
     }
 
-    .button:hover {
-      background-color: #0ea5e9;
-    }
-
-    @media (max-width: 640px) {
-      .ad-card {
-        padding: 1.5rem;
-      }
-
-      .ad-card h1 {
-        font-size: 2rem;
-      }
+    .footer {
+      margin-top: 1.6rem;
+      font-size: 0.9rem;
+      color: #888;
     }
   </style>
 </head>
 <body>
+  <div class="card">
+    <h1>Ant</h1>
+    <div class="nickname">Some call me Oreo</div>
 
-  <div class="ad-card">
-    <h1>Reel in Adventure</h1>
-    <h2>Book Your Fishing Tour Today!</h2>
+    <div class="info"><span>Birthday</span> <span>Aug 18, 2006</span></div>
+    <div class="info"><span>Location</span> <span>South Africa</span></div>
+    <div class="info"><span>Language</span> <span>English</span></div>
+    <div class="info"><span>Style</span> <span>Black & White</span></div>
+    <div class="info"><span>Fav Word</span> <span>Equivocator</span></div>
 
-    <ul class="features">
-      <li>Half-Day & Full-Day Fishing Trips</li>
-      <li>All Gear & Bait Provided</li>
-      <li>Family & Beginner Friendly</li>
-      <li>Wildlife Viewing & Scenic Routes</li>
-      <li>Catch Memories with Free Photos</li>
-    </ul>
-
-    <p class="cta">🎉 Get 10% Off Your First Trip!</p>
-
-    <div class="contact">
-      <p><strong>Call:</strong> _____</p>
-      <p><strong>Email:</strong> _____</p>
-      <p><strong>Web:</strong> www._____.com</p>
+    <div class="footer">
+      Feel free to reach out.
     </div>
-
-    <a href="tel:_____" class="button">Call Now</a>
   </div>
-
 </body>
 </html>
