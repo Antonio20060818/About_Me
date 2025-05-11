@@ -1,66 +1,140 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>About Ant</title>
-  <link href="https://fonts.googleapis.com/css2?family=Quicksand:wght@500;700&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@500&family=Quicksand&display=swap" rel="stylesheet">
   <style>
-    body {
+    html, body {
       margin: 0;
+      padding: 0;
+      overflow: hidden;
       font-family: 'Quicksand', sans-serif;
-      background-color: #000;
-      color: #fff;
-      display: flex;
-      align-items: center;
-      justify-content: center;
+      background-color: black;
+      color: white;
       height: 100vh;
+      user-select: none;
+    }
+
+    canvas {
+      position: fixed;
+      top: 0;
+      left: 0;
+      z-index: 0;
     }
 
     .card {
-      background-color: #111;
-      border: 2px solid #fff;
-      border-radius: 20px;
-      padding: 2rem;
-      width: 350px;
-      max-width: 90%;
+      position: relative;
+      z-index: 2;
+      background: rgba(0, 0, 0, 0.9);
+      border: 3px solid white;
+      border-radius: 30px;
+      padding: 3rem;
+      width: 300px;
       text-align: center;
+      margin: auto;
+      top: 50%;
+      transform: translateY(-50%) scale(1.05);
+      box-shadow: 0 0 20px white, 0 0 40px white;
+      animation: floatCard 3s ease-in-out infinite;
+      backdrop-filter: blur(6px);
+      transition: all 0.5s ease-in-out;
+    }
+
+    .card:hover {
+      transform: translateY(-50%) scale(1.1) rotate(1deg);
+      box-shadow: 0 0 40px white, 0 0 80px white;
     }
 
     .card h1 {
-      font-size: 2rem;
-      margin-bottom: 0.5rem;
+      font-family: 'Orbitron', sans-serif;
+      font-size: 2.2rem;
+      color: white;
+      text-shadow: 0 0 10px white, 0 0 20px white;
+      animation: flicker 2s infinite;
     }
 
     .nickname {
       font-size: 1.1rem;
-      margin-bottom: 1.2rem;
-      color: #bbb;
+      color: #ccc;
+      margin-bottom: 1rem;
+      animation: typing 2.5s steps(30, end), blink 0.75s step-end infinite alternate;
+      white-space: nowrap;
+      overflow: hidden;
+      border-right: 2px solid white;
+      display: inline-block;
     }
 
     .info {
-      background-color: #000;
-      border: 1px solid #fff;
+      background-color: rgba(0, 0, 0, 0.5);
+      border: 1px solid white;
       padding: 0.7rem;
-      margin: 0.4rem 0;
+      margin: 0.5rem 0;
       border-radius: 10px;
       font-size: 0.95rem;
       display: flex;
       justify-content: space-between;
+      color: white;
+      transition: transform 0.4s ease, box-shadow 0.4s ease;
     }
 
-    .info span {
-      font-weight: bold;
+    .info:hover {
+      transform: scale(1.1);
+      background-color: rgba(0, 0, 0, 0.7);
+      box-shadow: 0 0 10px white;
     }
 
     .footer {
       margin-top: 1.6rem;
       font-size: 0.9rem;
-      color: #888;
+      color: #aaa;
+      animation: pulse 1.5s infinite;
+    }
+
+    .audio-toggle {
+      position: absolute;
+      top: 20px;
+      right: 20px;
+      z-index: 3;
+      background: rgba(255, 255, 255, 0.1);
+      color: white;
+      border: 1px solid white;
+      padding: 0.4rem 0.8rem;
+      border-radius: 10px;
+      cursor: pointer;
+    }
+
+    @keyframes typing {
+      from { width: 0 }
+      to { width: 100% }
+    }
+
+    @keyframes blink {
+      50% { border-color: transparent; }
+    }
+
+    @keyframes pulse {
+      0%, 100% { opacity: 0.5; }
+      50% { opacity: 1; }
+    }
+
+    @keyframes floatCard {
+      0%, 100% { transform: translateY(-50%) translateX(0); }
+      50% { transform: translateY(-52%) translateX(5px); }
+    }
+
+    @keyframes flicker {
+      0%, 100% { text-shadow: 0 0 15px white; }
+      50% { text-shadow: 0 0 25px white, 0 0 50px white; }
     }
   </style>
 </head>
 <body>
+  <canvas id="c"></canvas>
+
+  <button class="audio-toggle" onclick="toggleAudio()">🔊</button>
+
   <div class="card">
     <h1>Ant</h1>
     <div class="nickname">Some call me Oreo</div>
@@ -68,12 +142,116 @@
     <div class="info"><span>Birthday</span> <span>Aug 18, 2006</span></div>
     <div class="info"><span>Location</span> <span>South Africa</span></div>
     <div class="info"><span>Language</span> <span>English</span></div>
-    <div class="info"><span>Style</span> <span>Black & White</span></div>
+    <div class="info"><span>Style</span> <span>Black &amp; White</span></div>
     <div class="info"><span>Fav Word</span> <span>Equivocator</span></div>
+    <div class="info"><span>Music Artist</span> <span>Central Cee</span></div>
 
-    <div class="footer">
-      Feel free to reach out.
-    </div>
+    <div class="footer">Feel free to reach out.</div>
   </div>
+
+  <audio id="bgMusic" loop autoplay>
+    <source src="YOUR_PONK_BEAT_LINK_HERE.mp3" type="audio/mpeg">
+  </audio>
+
+  <script>
+    const audio = document.getElementById('bgMusic');
+
+    const audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+    const source = audioCtx.createMediaElementSource(audio);
+    const panner = audioCtx.createPanner();
+    panner.panningModel = 'HRTF';
+    panner.setPosition(1, 0, 0);
+
+    let xPos = 1;
+    setInterval(() => {
+      xPos = -xPos;
+      panner.setPosition(xPos, 0, 1);
+    }, 2000);
+
+    const bassBoost = audioCtx.createBiquadFilter();
+    bassBoost.type = "lowshelf";
+    bassBoost.frequency.value = 150;
+    bassBoost.gain.value = 40;
+
+    source.connect(bassBoost);
+    bassBoost.connect(panner);
+    panner.connect(audioCtx.destination);
+
+    function toggleAudio() {
+      if (audioCtx.state === 'suspended') {
+        audioCtx.resume();
+      }
+      audio.muted = !audio.muted;
+    }
+
+    window.addEventListener('click', () => {
+      if (audioCtx.state === 'suspended') {
+        audioCtx.resume();
+      }
+    });
+
+    var c = document.getElementById('c'),
+        w = c.width = window.innerWidth,
+        h = c.height = window.innerHeight,
+        ctx = c.getContext('2d'),
+        particles = [];
+
+    const mouse = { x: w / 2, y: h / 2 };
+
+    document.addEventListener('mousemove', e => {
+      mouse.x = e.clientX;
+      mouse.y = e.clientY;
+    });
+
+    function Particle() {
+      this.x = mouse.x;
+      this.y = mouse.y;
+      this.size = Math.random() * 4 + 1;
+      this.speedX = Math.random() * 3 - 1.5;
+      this.speedY = Math.random() * 3 - 1.5;
+      this.hue = Math.random() * 360;
+      this.gray = Math.floor(Math.random() * 155) + 100;
+    }
+
+    Particle.prototype.update = function() {
+      this.x += this.speedX;
+      this.y += this.speedY;
+      this.size *= 0.96;
+    };
+
+    Particle.prototype.draw = function() {
+      ctx.beginPath();
+      ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
+      ctx.fillStyle = `rgb(${this.gray}, ${this.gray}, ${this.gray})`;
+      ctx.fill();
+    };
+
+    function handleParticles() {
+      particles.push(new Particle());
+      for (let i = 0; i < particles.length; i++) {
+        particles[i].update();
+        particles[i].draw();
+        if (particles[i].size < 0.5) {
+          particles.splice(i, 1);
+          i--;
+        }
+      }
+    }
+
+    function animate() {
+      ctx.fillStyle = 'rgba(0, 0, 0, 0.06)';
+      ctx.fillRect(0, 0, w, h);
+      handleParticles();
+      requestAnimationFrame(animate);
+    }
+
+    animate();
+
+    window.addEventListener('resize', () => {
+      w = c.width = window.innerWidth;
+      h = c.height = window.innerHeight;
+    });
+  </script>
 </body>
 </html>
+
